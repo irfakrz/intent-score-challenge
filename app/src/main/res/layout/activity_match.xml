@@ -109,5 +109,25 @@
         app:layout_constraintTop_toTopOf="parent"
         android:onClick="cekHasil"/>
 
+    <TextView
+        android:id="@+id/home_scorer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/score_home"
+        app:layout_constraintEnd_toStartOf="@+id/home_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/away_scorer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/away_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/score_away" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,7 +20,7 @@ public class ScorerActivity extends AppCompatActivity {
 
     public void buttonClick (View View){
         // Get the text from the EditText
-        namaScoreInput = (EditText)findViewById(R.id.text_namaSkor);
+        namaScoreInput = findViewById(R.id.text_namaSkor);
         String stringToPassBack = namaScoreInput.getText().toString();
 
         // Put the String to pass back into an Intent and close this activity

@@ -13,8 +13,10 @@ import id.putraprima.skorbola.model.User;
 public class MatchActivity extends AppCompatActivity {
     public static final String USER_KEY = "user";
     private static final int SCORER_ACTIVITY_REQUEST_CODE = 0;
-    private String namaSkorer;
+    private String namaSkorer = "";
     public String pemenang;
+    private TextView homeScorerText;
+    private TextView awayScorerText;
     private TextView namaHomeText;
     private TextView namaAwayText;
     private TextView skorHome;
@@ -31,6 +33,8 @@ public class MatchActivity extends AppCompatActivity {
         namaAwayText = findViewById(R.id.txt_away);
         skorHome = findViewById(R.id.score_home);
         skorAway = findViewById(R.id.score_away);
+        homeScorerText = findViewById(R.id.home_scorer);
+        awayScorerText = findViewById(R.id.away_scorer);
         skorHome.setText("0");
         skorAway.setText("0");
 
@@ -61,10 +65,12 @@ public class MatchActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
 
                 // Get String data from Intent
-                namaSkorer = data.getStringExtra("keyName");
+                namaSkorer += data.getStringExtra("keyName");
                 if(namaSkorer != null){
                     sHome++;
                     skorHome.setText(String.valueOf(sHome));
+                    homeScorerText = findViewById(R.id.home_scorer);
+                    homeScorerText.setText(namaSkorer+"\n");
                 }
             }
         }
@@ -72,10 +78,12 @@ public class MatchActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK){
 
                 // Get String data from Intent
-                namaSkorer = data.getStringExtra("keyName");
+                namaSkorer += data.getStringExtra("keyName");
                 if(namaSkorer != null){
                     sAway++;
                     skorAway.setText(String.valueOf(sAway));
+                    awayScorerText = findViewById(R.id.away_scorer);
+                    awayScorerText.setText(namaSkorer+"\n");
                 }
             }
         }
