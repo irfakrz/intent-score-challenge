@@ -2,18 +2,98 @@ package id.putraprima.skorbola;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import id.putraprima.skorbola.model.User;
 
 public class MatchActivity extends AppCompatActivity {
+    public static final String USER_KEY = "user";
+    private static final int SCORER_ACTIVITY_REQUEST_CODE = 0;
+    private String namaSkorer;
+    public String pemenang;
+    private TextView namaHomeText;
+    private TextView namaAwayText;
+    private TextView skorHome;
+    private TextView skorAway;
+    private int sHome = 0;
+    private int sAway = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match);
         //TODO
+        namaHomeText = findViewById(R.id.txt_home);
+        namaAwayText = findViewById(R.id.txt_away);
+        skorHome = findViewById(R.id.score_home);
+        skorAway = findViewById(R.id.score_away);
+        skorHome.setText("0");
+        skorAway.setText("0");
+
         //1.Menampilkan detail match sesuai data dari main activity
-        //2.Tombol add score menambahkan memindah activity ke scorerActivity dimana pada scorer activity di isikan nama pencetak gol
-        //3.Dari activity scorer akan mengirim kembali ke activity matchactivity otomatis nama pencetak gol dan skor bertambah +1
-        //4.Tombol Cek Result menghitung pemenang dari kedua tim dan mengirim nama pemenang beserta nama pencetak gol ke ResultActivity, jika seri di kirim text "Draw",
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            User data = getIntent().getParcelableExtra(USER_KEY);
+            namaHomeText.setText(data.getNamaHome());
+            namaAwayText.setText(data.getNamaAway());
+        }
+    }
+
+    public void addSkorHome(View View){
+        Intent intent = new Intent(this, ScorerActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    public void addSkorAway(View View){
+        Intent intent = new Intent(this, ScorerActivity.class);
+        startActivityForResult(intent, 2);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Check that it is the SecondActivity with an OK result
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
+
+                // Get String data from Intent
+                namaSkorer = data.getStringExtra("keyName");
+                if(namaSkorer != null){
+                    sHome++;
+                    skorHome.setText(String.valueOf(sHome));
+                }
+            }
+        }
+        else if(requestCode == 2){
+            if(resultCode == RESULT_OK){
+
+                // Get String data from Intent
+                namaSkorer = data.getStringExtra("keyName");
+                if(namaSkorer != null){
+                    sAway++;
+                    skorAway.setText(String.valueOf(sAway));
+                }
+            }
+        }
+    }
+
+    public void cekHasil(View View){
+
+        if(sHome > sAway){
+            pemenang = "The Winner is "+namaHomeText.getText().toString();
+        }
+        else if(sAway > sHome){
+            pemenang = "The Winner is"+namaAwayText.getText().toString();
+        }
+        else{
+            pemenang = "DRAW";
+        }
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra(USER_KEY, pemenang);
+        startActivity(intent);
     }
 }
